@@ -1,0 +1,40 @@
+#===============================================================================
+#       PROJECT: iaas
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: guoyanliang,yanliang.guo@pdx.ltd
+#       COMPANY: PDX Technologies, Inc.
+#       CREATED: 2020年06月16日10:51
+#        UPDATE: 2020年06月16日10:51
+#       VERSION: 0.1
+#      REVISION: ---
+#===============================================================================
+#deploy iaas
+#
+#tree:
+#	 .
+#	├── conf
+#	│   └── my.cnf
+#	├── config
+#	│   ├── application-main-web.properties
+#	│   └── application.properties
+#	├── db
+#	├── docker-compose.yml
+#	├── init
+#	└── logs
+#
+#	db:     mysql dbs location
+#	conf:   mysql config files
+#	init:   mysql init sql
+#	logs:   iaas log files
+#	config: iaas config files
+step1: config docker-compose.yml
+    change mysql USER and PASSWORD
+    change docker-compose network
+step2：pull images
+    docker-compose pull
+step3: deploy
+    docker-compose up -d    
+

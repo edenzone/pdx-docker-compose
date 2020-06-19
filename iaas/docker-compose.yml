@@ -1,0 +1,44 @@
+version: '3'
+services:
+  iaas:
+    image: pdxchain/iaas:2.6.5_beta
+    command: java -jar /pdx-iaas.jar -security off --spring.profiles.active=main-web --server.port=8088 
+    container_name: iaas
+    ports:
+      - "8088"
+    depends_on:
+      - hazelcast
+      - zookeeper
+      - mysql
+    #env_file: .env
+    #environment:
+    #  - hz=127.0.0.1
+    #  - zk=127.0.0.1
+    #  - mysql=127.0.0.1
+    extra_hosts:
+      - "hz:127.0.0.1"
+      - "zk:127.0.0.1"
+      - "mysql:127.0.0.1"
+    volumes:
+      - ./config/:/config
+      - ./logs:/data/logs/iaas/
+    network_mode: "host"
+  hazelcast:
+    image: pdxchain/hz:3.5.5
+    network_mode: "host"
+  zookeeper:
+    image: pdxchain/zk:latest
+    network_mode: "host"
+  mysql:
+    image: mysql:5.7
+    network_mode: "host"
+    environment:
+      MYSQL_ROOT_PASSWORD: "Pdx@1234"
+     # MYSQL_USER: 'iaas'
+     # MYSQL_PASS: 'yourpassword'
+    volumes:
+      - "./db:/var/lib/mysql"
+      - "./conf/my.cnf:/etc/my.cnf"
+      - "./init:/docker-entrypoint-initdb.d/"
+    ports:
+      - "3306:3306"
